@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.club.business.cmmn.login.LoginMapper">
+
+	<!-- 로그인 맴버 정보 -->
+	<select id="selectLoginMemberInfo"  parameterType="String" resultType="com.club.business.cmmn.login.LoginVO">
+		/* selectLoginMemberInfo */ 
+		select member_no      	as memberNo
+     		 , member_id		as memberId
+     		 , member_pwd       as memberPwd
+     		 , member_author    as memberAuthor
+     		 , nick_nm          as nickNm
+     		 , lock_yn          as lockYn
+     		 , login_fail_cnt   as loginFailCnt
+     		 , lock_time        as lockTime
+     		 , un_lock_time     as unLockTime
+  		  from member 
+ 		 where leave_yn = 'N'
+ 		   and member_id = #{memberId} 
+	</select>
+	
+	<!-- 로그인 맴버 권한 조회 -->
+	<select id="selectAuthorities"  parameterType="String" resultType="String">
+		/* selectAuthorities */ 
+		select memberAuthor
+		  from member 
+ 		 where use_yn = 'N'
+ 		   and member_id = #{memberId} 
+	</select>
+	
+	<!-- 로그인 실패 카운트 초기화 -->
+    <update id="updateFailCntReset"  parameterType="int">
+		/* updateFailCntReset */
+		update member
+		   set login_fail_cnt = 0
+		 where member_no = #{memberNo} 
+	</update>
+	
+	<!-- 로그인 실패 카운트 증가 -->
+    <update id="updateFailCntAdd"  parameterType="int">
+		/* updateFailCntAdd */
+		update member
+		   set login_fail_cnt = (login_fail_cnt + 1)
+		 where member_no = #{memberNo} 
+	</update> 
+	
+	<!-- 로그인 계정 잠금 -->
+    <update id="updateFailCntAdd"  parameterType="int">
+		/* updateFailCntAdd */
+		update member
+		   set lock_yn = 'Y'
+		 where member_no = #{memberNo} 
+	</update>
+	
+	<!-- 로그인 계정 잠금 해제 -->
+    <update id="updateFailCntAdd"  parameterType="int">
+		/* updateFailCntAdd */
+		update member
+		   set lock_yn = 'Y'
+		     , lobk_time = '10'
+		 where member_no = #{memberNo} 
+	</update>
+</mapper>
