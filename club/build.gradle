@@ -1,0 +1,57 @@
+plugins {
+	id 'org.springframework.boot' version '2.7.4'
+	id 'io.spring.dependency-management' version '1.0.14.RELEASE'
+	id 'java'
+}
+
+group = 'com.club'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '17'
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-aop'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.boot:spring-boot-starter-mail'
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+	implementation 'org.springframework.session:spring-session-core'
+	
+	implementation 'org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16'  /** Log4JDBC */
+	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5' /** Thymeleaf Security */
+	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.2'
+	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
+	
+	implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect' /** Thymeleaf Layout */
+	implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.13.0' /*XML 파싱*/
+	implementation 'com.google.code.gson:gson:2.9.0' /** GSON */
+	implementation ("commons-collections:commons-collections:3.2.2") /*Commons Map */
+		
+	/* 문자메세지 */
+	implementation 'net.nurigo:javaSDK:2.2'
+	
+	/* 파일첨부 관련 */
+	implementation 'commons-io:commons-io:2.8.0'
+	implementation 'commons-fileupload:commons-fileupload:1.4'
+	
+	compileOnly 'org.projectlombok:lombok'
+	runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
+	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+	annotationProcessor 'org.projectlombok:lombok'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.springframework.batch:spring-batch-test'
+	testImplementation 'org.springframework.security:spring-security-test'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
