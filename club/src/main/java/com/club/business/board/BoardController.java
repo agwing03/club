@@ -54,6 +54,7 @@ public class BoardController{
 			Model model
 		) throws Exception { 
 		
+		
 		model.addAttribute("response", boardService.selectBoardInfo(params));
 		model.addAttribute("searchVO", params);
 		
