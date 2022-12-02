@@ -57,6 +57,7 @@ public class BoardController{
 		model.addAttribute("response", boardService.selectBoardInfo(params));
 		model.addAttribute("searchVO", params);
 		
+		
 		return "board/boardView";		
 	}
 	
