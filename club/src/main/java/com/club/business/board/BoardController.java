@@ -47,18 +47,15 @@ public class BoardController{
 	 * @return Model 
 	 * @throws Exception
 	 */
-	@RequestMapping("/board/selectBoardList.do")
+	@RequestMapping("/board/selectBoardInfo.do")
 	public String selectBoardInfo( 
 			HttpServletRequest req,
 			@ModelAttribute("params") SearchVO params,
 			Model model
 		) throws Exception { 
 		
-		
 		model.addAttribute("response", boardService.selectBoardInfo(params));
 		model.addAttribute("searchVO", params);
-		
-		
 		return "board/boardView";		
 	}
 	

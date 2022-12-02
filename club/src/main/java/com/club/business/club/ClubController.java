@@ -47,7 +47,7 @@ public class ClubController{
 	 * @return Model 
 	 * @throws Exception
 	 */
-	@RequestMapping("/club/selectClubList.do")
+	@RequestMapping("/club/selectClubInfo.do")
 	public String selectClubInfo(
 			HttpServletRequest req,
 			@ModelAttribute("params") SearchVO params,

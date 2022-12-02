@@ -24,4 +24,6 @@
 		  	, now()
 		)
 	</insert>
+	
+	
 </mapper>

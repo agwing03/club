@@ -32,16 +32,20 @@ public class SpringSecurityConfig{
 	 	@Bean
 	    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 	 			http.csrf().disable()
+	 				// 보호된 리소스 URI에 접근할 수 있는 권한을 설정
 					.authorizeRequests()
-					.antMatchers("/login/**","/login**","/test/test**","/payment/**").permitAll() // 해당 경로들은 접근을 허용 , login** -> 실패 핸들러 탓을 경우에 파라미터 넘기기 위함
-					.antMatchers("/board/list.do").hasRole("TEST")
-					.anyRequest().authenticated() // 인증된 유저만 접근을 허용
+					// 전체 접근 허용 , login** -> 실패 핸들러 탓을 경우에 파라미터 넘기기 위함
+					.antMatchers("/login/**","/login**","/test/test**","/payment/**").permitAll()
+					// 특정 사용자만 접근
+					//.antMatchers("/board/list.do").hasRole("TEST")
+					// 인증된 유저만 접근을 허용
+					.anyRequest().authenticated() 
 	                .and()
 	                	.formLogin()
 	                	.loginPage("/login.do")
-	                	.loginProcessingUrl("/login/loginProc.do")
-	                    .usernameParameter("userId")
-	                    .passwordParameter("userPassword")
+	                	.loginProcessingUrl("/loginProc.do")
+	                    .usernameParameter("memberId")
+	                    .passwordParameter("memberPw")
 	                    .defaultSuccessUrl("/main.do", true)
 	                    .successHandler(customAuthenticationSuccessHandler) //  성공시 custom success 핸들러를 호출한다.
 	                    .failureHandler(customAuthenticationFailureHandler) //  실패시 custom failure 핸들러를 호출한다.

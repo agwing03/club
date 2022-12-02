@@ -29,7 +29,7 @@
  		   and member_id = #{memberId} 
 	</select>
 	
-	<!-- 로그인 실패 카운트 초기화 -->
+	<!-- 로그인 성공시 실패 횟수 초기화 -->
     <update id="updateFailCntReset"  parameterType="int">
 		/* updateFailCntReset */
 		update member
@@ -37,7 +37,7 @@
 		 where member_no = #{memberNo} 
 	</update>
 	
-	<!-- 로그인 실패 카운트 증가 -->
+	<!-- 로그인 실패 횟수 증가 -->
     <update id="updateFailCntAdd"  parameterType="int">
 		/* updateFailCntAdd */
 		update member
@@ -46,19 +46,10 @@
 	</update> 
 	
 	<!-- 로그인 계정 잠금 -->
-    <update id="updateFailCntAdd"  parameterType="int">
-		/* updateFailCntAdd */
+    <update id="updateFailLock"  parameterType="int">
+		/* updateFailLock */
 		update member
 		   set lock_yn = 'Y'
-		 where member_no = #{memberNo} 
-	</update>
-	
-	<!-- 로그인 계정 잠금 해제 -->
-    <update id="updateFailCntAdd"  parameterType="int">
-		/* updateFailCntAdd */
-		update member
-		   set lock_yn = 'Y'
-		     , lobk_time = '10'
 		 where member_no = #{memberNo} 
 	</update>
 </mapper>

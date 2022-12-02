@@ -30,12 +30,12 @@ public class GlobalHandlerException {
 	private final LogService logService;
 	
 	@ExceptionHandler(Exception.class) // Exception 된 에러
-	public ModelAndView handlerException(Exception e,HttpServletRequest req) {
+	public ModelAndView handlerException(Exception e, HttpServletRequest req) {
 		
 		// 상태 코드를 여기서 핸들링 하고 싶은데 어찌 하는지를 모르겠삼..
-		log.debug("Exception : " + req.getAttribute(RequestDispatcher.ERROR_STATUS_CODE));
-		log.debug("Exception : " + e.getMessage());
-		log.debug("Exception : " +  req.getUserPrincipal().getName());
+		log.info("Exception : " + req.getAttribute(RequestDispatcher.ERROR_STATUS_CODE));
+		log.info("Exception : " + e.getMessage());
+		//log.debug("Exception : " +  req.getUserPrincipal().getName());
 		
 		//에러 로그 저장
 		Object url = req.getRequestURI();
@@ -47,20 +47,19 @@ public class GlobalHandlerException {
 		Map<String,Object> dataMap = new HashMap<String,Object>();
 		dataMap.put("errorMenuUrl", url);
 		dataMap.put("errorIpAddr", req.getRemoteAddr());
-		dataMap.put("errorUserId", req.getUserPrincipal().getName());
+		//dataMap.put("errorUserId", req.getUserPrincipal().getName());
 		dataMap.put("errorLogContents", Message);
 		
-		logService.errorLogInsert(dataMap);
+		//logService.errorLogInsert(dataMap);
 		
 		// 날짜
 		String dateFormat = LocalDateTime.now().format(DateTimeFormatter.ofPattern("YYYY-MM-dd HH:mm:ss"));
-		
 		
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("exception", Message);
 		mv.addObject("url", req.getRequestURI());
 		mv.addObject("timeStamp", dateFormat);
-		mv.setViewName("error/error");
+		mv.setViewName("cmmn/error");
 		
 		return mv;
 	}

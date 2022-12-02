@@ -21,18 +21,16 @@ public class LoginVO implements UserDetails{
 	 * table : member 
 	 * 로그인 및 스프링 시큐리티 관련된 업무VO
 	 */
-	private static final long serialVersionUID = 809890801483033862L;
-
-    private int    memberNo;
-    private String memberId;
-    private String memberPwd;
-    private String memberAuthor;
-    private String useYn;
-    private String nickNm;
-    private String lockYn;
-    private int loginFailCnt;
-    private int lockTime;
-    private int unLockTime;
+    private int    	memberNo;
+    private String 	memberId;
+    private String 	memberPwd;
+    private String 	memberAuthor;
+    private String 	useYn;
+    private String 	nickNm;
+    private String 	lockYn;
+    private int 	loginFailCnt;
+    private int 	lockTime;
+    private int 	unLockTime;
     
     private ArrayList<GrantedAuthority> authorities;
     

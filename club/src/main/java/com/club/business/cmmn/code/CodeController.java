@@ -104,7 +104,7 @@ public class CodeController extends LayoutModule {
 	 * @return Model 
 	 * @throws Exception
 	 */
-	@RequestMapping("/cmmn/selectCodeList.do")
+	@RequestMapping("/cmmn/selectCodeDtlList.do")
 	public String selectCodeDtlList(
 			HttpServletRequest req,
 			@ModelAttribute("params") SearchVO params,
