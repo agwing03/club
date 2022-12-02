@@ -52,7 +52,7 @@ public class BoardController{
 			HttpServletRequest req,
 			@ModelAttribute("params") SearchVO params,
 			Model model
-		) throws Exception {
+		) throws Exception { 
 		
 		model.addAttribute("response", boardService.selectBoardInfo(params));
 		model.addAttribute("searchVO", params);
