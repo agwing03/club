@@ -48,7 +48,7 @@ public class BoardController{
 	 * @throws Exception
 	 */
 	@RequestMapping("/board/selectBoardList.do")
-	public String selectBoardInfo(
+	public String selectBoardInfo( 
 			HttpServletRequest req,
 			@ModelAttribute("params") SearchVO params,
 			Model model
