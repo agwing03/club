@@ -1,96 +1,152 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.tccins.template.common.mapper.CommonMapper">
-
-   <!--상단 메뉴 조회 -->
-    <select id="selectTopMenuList"  parameterType="com.tccins.template.common.dto.CommonDto" resultType="com.tccins.template.common.dto.CommonDto">
-		SELECT DISTINCT A.MENU_ID
-			  ,A.MENU_NM
-			  ,A.MENU_URL
-		FROM MENU A LEFT OUTER JOIN AUTH_MENU B ON	A.MENU_ID = B.MENU_ID
-		AND UPPER_MENU_ID = 'ROOT'
-		WHERE B.AUTH_ID IN(
-			SELECT
-				AUTH_ID
-			FROM
-				USER_AUTH
-			WHERE
-				USER_PK = #{userPk}
+<mapper namespace="com.club.business.board.BoardMapper">
+	<!-- 게시판 목록 조회 -->
+	<select id="selectBoardList" parameterType="com.club.business.board.BoardVO" resultMap="com.club.sys.cmmn.CamelMap">
+		/* selectBoardList */
+		select board_no
+			 , club_no
+			 , title
+			 , contents
+			 , file_id
+			 , board_gbn
+			 , frst_reg_no
+			 , frst_reg_dt
+			 , last_upd_no
+			 , last_upd_dt
+		  from club.board a
+		 where club_no = #{srchKey}
+		   and board_gbn = #{srchType}
+		 order by board_no desc
+	</select>
+	
+	<!-- 게시판 목록 카운트 -->
+	<select id="selectBoardListCnt" parameterType="com.club.business.board.BoardVO" resultMap="int">
+		/* selectBoardListCnt */
+		select count(*)
+		  from club.board
+		 where club_no = #{srchKey}
+		   and board_gbn = #{srchType}
+	</select>
+	
+	<!-- 게시판 상세 -->
+	<select id="selectBoardInfo" parameterType="int" resultMap="com.club.business.board.BoardVO">
+		/* selectBoardInfo */
+		select board_no
+			 , club_no
+			 , title
+			 , contents
+			 , file_id
+			 , board_gbn
+			 , frst_reg_no
+			 , frst_reg_dt
+			 , last_upd_no
+			 , last_upd_dt
+			 , (select count(*) 
+			 	  from club.board_reply b 
+			     where a.board_no = b.board_no) as reply_cnt
+		  from club.board
+		 where del_yn = 'N'
+		   and club_no = #{srchKey}
+		   and board_gbn = #{srchType}
+		   
+	</select>
+	
+	<!-- 게시물 등록 -->
+    <insert id="insertBoard" parameterType="com.club.business.board.BoardVO">
+    	/* insertBoard */
+    	insert into club.board (
+    		   club_no
+			 , title
+			 , contents
+			 , file_id
+			 , board_gbn
+			 , frst_reg_no
+			 , frst_reg_dt
+    	)values(
+    		   #{clubNo}
+			 , #{title}
+			 , #{contents}
+			 , #{fileId}
+			 , #{boardGbn}
+			 , #{userNo}
+			 , now()
+    	)
+	</insert>
+	
+	<!-- 게시물 수정 -->
+    <update id="updateBoard" parameterType="com.club.business.board.BoardVO">
+    	/* updateBoard */
+    	update club.board
+    	   set club_no		= #{clubNo}
+			 , title		= #{title}
+			 , contents		= #{contents}
+			 , file_id		= #{fileId}
+			 , board_gbn	= #{boardGbn}
+			 , last_upd_no	= #{userNo}
+			 , last_upd_dt	= now()
+		 where board_no		= #{boardNo}
+	</update>
+	
+	<!-- 게시물 삭제 -->
+	<update id="deleteBoardDelYn" parameterType="com.club.business.board.BoardVO">
+    	/* deleteBoardDelYn */
+    	update club.board
+    	   set del_yn = 'Y'
+		 where board_no	= #{boardNo}
+	</update>
+    <delete id="deleteBoard" parameterType="com.club.business.board.BoardVO">
+    	/* deleteBoard */
+    	delete from club.board
+    	 where board_no = #{boardNo}
+	</delete>
+	
+	<!-- 댓글 목록 조회 -->
+	<select id="selectBoardReplyList" parameterType="int" resultMap="com.club.sys.cmmn.CamelMap">
+		/* selectBoardReplyList */
+	</select>
+	
+	<!-- 댓글 등록 -->
+    <insert id="insertBoardReply"  parameterType="com.club.business.board.BoardVO">
+    	/* insertBoardReply */
+    	insert into club.board_reply (
+			   board_no
+			 , reply_upper_no
+			 , reply_lv
+			 , reply_cn
+			 , frst_reg_no
+			 , frst_reg_dt
+		) values (
+			   #{boardNo}
+			 , #{replyUpperNo}
+			 , #{replyLv}
+			 , #{replyCn}
+			 , #{userNo}
+			 , now()
 		)
-		ORDER BY MENU_ORDER
-	</select>
+	</insert>
 	
-	 <!--선택한 메뉴정보 조회 -->
-	<select id="selectMenuInfo"  parameterType="String" resultType="com.tccins.template.common.dto.CommonDto">
-		SELECT
-			 ROOT_MENU_ID
-			,MENU_ID
-			,UPPER_MENU_ID
-		FROM MENU
-		WHERE MENU_URL = #{url}
-		AND MENU_LEVEL = '2'
-	</select>
+	<!-- 댓글 수정 -->
+    <update id="updateBoardReply"  parameterType="com.club.business.board.BoardVO">
+    	/* updateBoardReply */
+    	update club.board_reply
+    	   set reply_cn = #{replyCn}
+    	     , last_upd_no = #{userNo}
+	 		 , last_upd_dt = now()
+    	 where reply_no = #{replyNo}
+	</update>
 	
-	 <!--좌측메뉴(상위) 리스트 조회 -->
-    <select id="selectLeftUpperMenuList"  parameterType="com.tccins.template.common.dto.CommonDto" resultType="com.tccins.template.common.dto.CommonDto">
-		SELECT DISTINCT M1.MENU_ID
-			  ,M1.MENU_NM
-		FROM 		
-			MENU M1
-		LEFT OUTER JOIN AUTH_MENU B ON	M1.MENU_ID = B.MENU_ID
-		WHERE M1.UPPER_MENU_ID = #{rootMenuId}
-		AND B.AUTH_ID IN(
-							SELECT
-								AUTH_ID
-							FROM
-								USER_AUTH
-							WHERE
-								USER_PK = #{userPk}
-						)
-		ORDER BY M1.MENU_ORDER
-	</select>
-	
- 	<!--좌측메뉴(하위) 리스트 조회 -->
-    <select id="selectLeftMenuList"  parameterType="com.tccins.template.common.dto.CommonDto" resultType="com.tccins.template.common.dto.CommonDto">
-		SELECT 
-				 DISTINCT M1.MENU_ID
-				,M1.MENU_URL
-				,M1.MENU_NM
-				,M1.UPPER_MENU_ID 
-		FROM 		
-			MENU M1
-		LEFT OUTER JOIN AUTH_MENU B ON	M1.MENU_ID = B.MENU_ID
-		LEFT JOIN 	MENU M2 on M2.MENU_ID = M1.UPPER_MENU_ID
-		LEFT JOIN 	MENU M3 on M3.MENU_ID = M2.UPPER_MENU_ID
-		WHERE B.AUTH_ID IN(
-							SELECT
-								AUTH_ID
-							FROM
-								USER_AUTH
-							WHERE
-								USER_PK = #{userPk}
-						)
-		AND M3.MENU_ID = #{rootMenuId}
-		ORDER BY M2.MENU_ORDER, M1.MENU_ORDER
-	</select>
-	 
-	 <!--공통코드로 상세코드 리스트조회 -->
-    <select id="selectCmCodeList"  parameterType="String" resultType="com.tccins.template.common.CamelMap">
-		SELECT dt_code
-			,dt_code_nm
-		FROM 		
-			dtcode
-		WHERE cm_code = #{cmCode}
-		ORDER BY dt_code_nm
-	</select>
-	
-	<!--상세코드로 상세코드 이름 조회 -->
-    <select id="selectDtCodeNm"  parameterType="String" resultType="String">
-		SELECT dt_code_nm
-		FROM 
-			dtcode
-		WHERE dt_code = #{dtCode}
-	</select>
- 
+	<!-- 댓글 수정 -->
+	<update id="deleteBoardReplyDelYn" parameterType="com.club.business.board.BoardVO">
+    	/* deleteBoardReplyDelYn */
+    	update club.board_reply
+    	   set del_yn = 'Y'
+		 where reply_no	= #{replyNo}
+	</update>
+    <delete id="deleteBoardReply" parameterType="com.club.business.board.BoardVO">
+    	/* deleteBoardReply */
+    	delete from club.board_reply
+    	 where reply_no	= #{replyNo}
+	</delete>
 </mapper>

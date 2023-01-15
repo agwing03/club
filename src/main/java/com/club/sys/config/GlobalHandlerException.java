@@ -7,8 +7,6 @@ package com.club.sys.config;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
@@ -18,6 +16,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.club.business.cmmn.log.LogService;
+import com.club.business.cmmn.log.LogVO;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,7 +29,10 @@ public class GlobalHandlerException {
 	private final LogService logService;
 	
 	@ExceptionHandler(Exception.class) // Exception 된 에러
-	public ModelAndView handlerException(Exception e,HttpServletRequest req) {
+	public ModelAndView handlerException(
+			Exception e,
+			HttpServletRequest req
+		) throws Exception {
 		
 		// 상태 코드를 여기서 핸들링 하고 싶은데 어찌 하는지를 모르겠삼..
 		log.debug("Exception : " + req.getAttribute(RequestDispatcher.ERROR_STATUS_CODE));
@@ -44,17 +46,15 @@ public class GlobalHandlerException {
 			Message.substring(0, 4000);
 		}
 		// 데이터 쌓기 위한 Map 선언
-		Map<String,Object> dataMap = new HashMap<String,Object>();
-		dataMap.put("errorMenuUrl", url);
-		dataMap.put("errorIpAddr", req.getRemoteAddr());
-		dataMap.put("errorUserId", req.getUserPrincipal().getName());
-		dataMap.put("errorLogContents", Message);
-		
-		logService.errorLogInsert(dataMap);
+		LogVO logVO = new LogVO();
+		logVO.setUrl(url.toString());
+		logVO.setIp(req.getRemoteAddr());
+		//logVO.setUserNo(); //req.getUserPrincipal().getName()
+		logVO.setMsg(Message);
+		logService.insertErrLog(logVO);
 		
 		// 날짜
 		String dateFormat = LocalDateTime.now().format(DateTimeFormatter.ofPattern("YYYY-MM-dd HH:mm:ss"));
-		
 		
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("exception", Message);
@@ -64,5 +64,4 @@ public class GlobalHandlerException {
 		
 		return mv;
 	}
-
 }

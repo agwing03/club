@@ -1,12 +1,8 @@
 package com.club.business.cmmn.login;
 
 import java.util.List;
-import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
-
-import com.club.sys.cmmn.CamelMap;
-import com.club.sys.cmmn.SearchVO;
 
 
 @Mapper
@@ -39,7 +35,7 @@ public interface LoginMapper {
 	void updateFailCntAdd(int memberNo);
 	
 	/**
-	 * 계정 잠금
+	 * 로그인 계정 잠금 or 잠금해제
 	 * @param int memberNo
 	 */
 	void updateFailLock(int memberNo);

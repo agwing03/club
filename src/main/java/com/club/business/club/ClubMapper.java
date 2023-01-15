@@ -1,11 +1,10 @@
 package com.club.business.club;
 
 import java.util.List;
-import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.club.sys.cmmn.SearchVO;
+import com.club.sys.cmmn.CamelMap;
 
 /**
  * 클럽 Service 
@@ -17,33 +16,66 @@ public interface ClubMapper {
 
 	/**
 	 * 클럽 목록 조회
-	 * @param SearchVO
-	 * @return List<ClubVO>
+	 * @param ClubVO
+	 * @return List<CamelMap>
 	 */
-	List<ClubVO> selectClubList(SearchVO params);
+	int selectClubListCnt(ClubVO vo);
+	List<CamelMap> selectClubList(ClubVO vo);
 	
 	/**
 	 * 클럽 조회
-	 * @param SearchVO
+	 * @param ClubVO
 	 * @return ClubVO
 	 */
-	ClubVO selectClubInfo(SearchVO params);
+	ClubVO selectClubInfo(int clubNo);
 	
 	/**
 	 * 클럽 저장
-	 * @param Map<String,Object>
+	 * @param ClubVO
 	 */
-	void insertClub(Map<String, Object> map);
+	void insertClub(ClubVO vo);
 	
 	/**
 	 * 클럽 수정
-	 * @param Map<String,Object>
+	 * @param ClubVO
 	 */
-	void updateClub(Map<String, Object> map);
+	void updateClub(ClubVO vo);
 	
 	/**
-	 *  삭제
-	 * @param Map<String,Object>
+	 * 클럽 삭제
+	 * @param ClubVO
 	 */
-	void deleteClub(Map<String, Object> map);
+	void deleteClub(ClubVO vo);
+	
+	/**
+	 * 모임 목록 조회
+	 * @param ClubVO
+	 * @return List<CamelMap>
+	 */
+	List<CamelMap> selectMeetingList(int clubNo);
+	
+	/**
+	 * 모임 조회
+	 * @param ClubVO
+	 * @return ClubVO
+	 */
+	ClubVO selectMeetingInfo(int clubNo);
+	
+	/**
+	 * 모임 저장
+	 * @param ClubVO
+	 */
+	void insertMeeting(ClubVO vo);
+	
+	/**
+	 * 모임 수정
+	 * @param ClubVO
+	 */
+	void updateMeeting(ClubVO vo);
+	
+	/**
+	 * 모임 삭제
+	 * @param ClubVO
+	 */
+	void deleteMeeting(ClubVO vo);
 }

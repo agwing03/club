@@ -1,0 +1,38 @@
+
+
+-- 사용자
+INSERT INTO club.`member` (member_id, nick_nm, name, sex, brthday, phon_no, email, addr, addr_dtl, profile_img_no, Intro, account_no, action_area_lv1, join_club_open_yn, leave_yn, frst_reg_id, frst_reg_dt, last_upd_id, last_upd_dt)
+	VALUES('agwing03', '지요리', '박지열', 'M', '19840710', '01033002213', 'agwing03@naver.com', NULL, NULL, NULL, '하이 헬로우 안녕', '1234556789', NULL, 'N', 'N', 1, now(), NULL, NULL);
+-- 사용자
+INSERT INTO club.`member` (member_id, nick_nm, name, sex, brthday, phon_no, email, addr, addr_dtl, profile_img_no, Intro, account_no, action_area_lv1, join_club_open_yn, leave_yn, frst_reg_id, frst_reg_dt, last_upd_id, last_upd_dt)
+	VALUES('kim', '봉자', '김봉수', 'M', '19840710', '01033002213', 'agwing03@naver.com', NULL, NULL, NULL, '하이 헬로우 안녕', '1234556789', NULL, 'N', 'N', 1, now(), NULL, NULL);
+
+-- 권한
+INSERT INTO club.author(author_id, author_nm, author_dc, use_yn, reg_id, reg_dt)
+	VALUES('SYS_ADMIN', '시스템관리자', '시스템관리자', 'Y', 1, NOW());
+
+-- 공통코드 
+INSERT INTO club.cmmn_code(code_id, code_nm, code_dc, use_yn, frst_reg_id, frst_reg_dt, last_upd_id, last_upd_dt)
+	VALUES('BOARD_GBN', '게시판구분', '게시판구분: REVIEW(모임후기), NOTICE(공지), INTEREST(관심사공유), GREETINGS(가입인사)', 'Y', 1, NOW(), 1, NOW());
+INSERT INTO club.cmmn_code(code_id, code_nm, code_dc, use_yn, frst_reg_id, frst_reg_dt, last_upd_id, last_upd_dt)
+	VALUES('SEX', '성별', '성별: F(남성), M(여성)', 'Y', 1, NOW(), 1, NOW());
+INSERT INTO club.cmmn_code(code_id, code_nm, code_dc, use_yn, frst_reg_id, frst_reg_dt, last_upd_id, last_upd_dt)
+	VALUES('VOTE_TP', '튜표유형', '투표유형: V_HUMAN(인물), V_DATE(날짜), V_TEXT(텍스트), V_IMG(이미지)', 'Y', 1, NOW(), 1, NOW());
+INSERT INTO club.cmmn_code(code_id, code_nm, code_dc, use_yn, frst_reg_id, frst_reg_dt, last_upd_id, last_upd_dt)
+	VALUES('SYS_LOG_GBN', '시스템로그', '시스템로그: LOGIN(로그인), ERROR(에러), BATCH(배치)', 'Y', 1, NOW(), 1, NOW());
+INSERT INTO club.cmmn_code(code_id, code_nm, code_dc, use_yn, frst_reg_id, frst_reg_dt, last_upd_id, last_upd_dt)
+	VALUES('FILE_GBN', '파일분류', '파일분류: FILE(첨부파일), 이미지(IMG)', 'Y', 1, NOW(), 1, NOW());
+INSERT INTO club.cmmn_code(code_id, code_nm, code_dc, use_yn, frst_reg_id, frst_reg_dt, last_upd_id, last_upd_dt)
+	VALUES('VOTE_TP', '투표유형', '투표유형: 인물(MEMBER), 텍스트(TEXT), 이미지(IMG)', 'Y', 1, NOW(), 1, NOW());
+INSERT INTO club.cmmn_code(code_id, code_nm, code_dc, use_yn, frst_reg_id, frst_reg_dt, last_upd_id, last_upd_dt)
+	VALUES('CLUB_JOIN_TP', '클럽가입구분', '클럽가입구분: 가입형(JOIN_TP), 구독형()', 'Y', 1, NOW(), 1, NOW());
+INSERT INTO club.cmmn_code(code_id, code_nm, code_dc, use_yn, frst_reg_id, frst_reg_dt, last_upd_id, last_upd_dt)
+	VALUES('MEETING_GBN', '모임구분', '모임구분: 모임(MEETING), 벙개(LIGHTNING), 레슨(LESSON), 강연(LECTURE), 공연(SHOW)', 'Y', 1, NOW(), 1, NOW());
+INSERT INTO club.cmmn_code(code_id, code_nm, code_dc, use_yn, frst_reg_id, frst_reg_dt, last_upd_id, last_upd_dt)
+	VALUES('BOARD_GBN', '게시판구분', '게시판구분: 공지사항(NOTICE), 모임후기(MEETING), 관심사공유(INTEREST), 자유게시판(FREE)', 'Y', 1, NOW(), 1, NOW());
+INSERT INTO club.cmmn_code(code_id, code_nm, code_dc, use_yn, frst_reg_id, frst_reg_dt, last_upd_id, last_upd_dt)
+	VALUES('LIKE_HATE_GBN', '좋아요/싫어요', '좋아요/싫어요: 좋아요(LIKE), 싫어요(HATE)', 'Y', 1, NOW(), 1, NOW());
+INSERT INTO club.cmmn_code(code_id, code_nm, code_dc, use_yn, frst_reg_id, frst_reg_dt, last_upd_id, last_upd_dt)
+	VALUES('DECLAR_GBN', '신고구분', '신고구분: TYPE1(언어폭력_욕설, 모욕 등), TYPE2(성적모욕_성희롱 등), TYPE3(스토킹_이성에의한 피해), TYPE4(강요, 종교 및 신념, 영업 등), TYPE5(기타)', 'Y', 1, NOW(), 1, NOW());
+
+  `action_area_lv1` varchar(10) DEFAULT NULL COMMENT '활동지역 Lv1(공통코드)',

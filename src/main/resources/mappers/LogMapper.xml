@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.club.business.cmmn.log.LogMapper">
-
+      
 	<!-- 로그인 맴버 정보 -->
 	<insert id="insertLoginLog" parameterType="com.club.sys.cmmn.CamelMap">
 		/* insertLoginLog */ 
@@ -16,11 +16,11 @@
 		  	, reg_dt
 		)values(
 			  #{loginGbn}
-  			, #{loginIp}
-			, #{loginMemberId}
-		  	, #{errMsg}
+  			, #{ip}
+			, #{userNo}
+		  	, #{msg}
 		  	, #{failCnt}
-		  	, #{regId}
+		  	, #{userNo}
 		  	, now()
 		)
 	</insert>

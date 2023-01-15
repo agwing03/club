@@ -1,27 +1,16 @@
 package com.club.business.cmmn.mail;
 
-import java.io.IOException;
-import java.util.HashMap;
-
-import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
-import org.thymeleaf.context.Context;
-import org.thymeleaf.spring5.SpringTemplateEngine;
 
 @Component
 public class EmailSend {
 	
 	  //반드시 Autowired로 @RequiredArgsConstructor를 수입해서 final 사용하면 에러 발생
-	  @Autowired
-	  private JavaMailSender javaMailSender;
+	  //@Autowired
+	  //private JavaMailSender javaMailSender;
 
-	  @Autowired
-	  private SpringTemplateEngine templateEngine;
+	  //@Autowired
+	  //private SpringTemplateEngine templateEngine;
 	
 	
 	
@@ -33,7 +22,7 @@ public class EmailSend {
      * @param values 이메일에 들어가는 값
      * @throws MessagingException
      * @throws IOException
-     */
+    
     public void send(String title, String to, String templateName, HashMap<String, String> values) throws MessagingException, IOException {
 
         MimeMessage message = javaMailSender.createMimeMessage();
@@ -58,5 +47,5 @@ public class EmailSend {
         //메일 보내기
         javaMailSender.send(message);
     }
-
+	 */
 }

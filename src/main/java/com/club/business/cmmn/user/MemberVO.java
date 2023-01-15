@@ -2,9 +2,12 @@ package com.club.business.cmmn.user;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
+import com.club.sys.cmmn.CamelMap;
 
 import lombok.Data;
 import lombok.ToString;
@@ -43,6 +46,8 @@ public class MemberVO implements UserDetails{
     
     //사용자 권한
     private ArrayList<GrantedAuthority> authorities;
+    private List<CamelMap> memberList;
+    private String memberPkArr;
     
 	@Override
 	public String getPassword() {

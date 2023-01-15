@@ -1,11 +1,10 @@
 package com.club.business.cmmn.code;
 
 import java.util.List;
-import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.club.sys.cmmn.SearchVO;
+import com.club.sys.cmmn.CamelMap;
 
 /**
  * 공통코드 Mapper 
@@ -17,51 +16,51 @@ public interface CodeMapper {
 
 	/**
 	 * 공통코드 목록 조회
-	 * @param SearchVO
-	 * @return List<CodeVO>
+	 * @param CodeVO
+	 * @return List<CamelMap>
 	 */
-	List<CodeVO> selectCodeList(SearchVO params);
+	List<CamelMap> selectCodeList(CodeVO vo);
 	
 	/**
 	 * 공통코드 저장
-	 * @param Map<String,Object>
+	 * @param CodeVO
 	 */
-	void insertCode(Map<String, Object> map);
+	void insertCode(CodeVO vo);
 	
 	/**
 	 * 공통코드 수정
-	 * @param Map<String,Object>
+	 * @param CodeVO
 	 */
-	void updateCode(Map<String, Object> map);
+	void updateCode(CodeVO vo);
 	
 	/**
 	 * 공통코드 삭제
-	 * @param Map<String,Object>
+	 * @param CodeVO
 	 */
-	void deleteCode(Map<String, Object> map);
+	void deleteCode(CodeVO vo);
 	
 	/**
 	 * 상세코드 목록 조회
-	 * @param SearchVO
-	 * @return List<CodeVO>
+	 * @param Integer
+	 * @return List<CamelMap>
 	 */
-	List<CodeVO> selectCodeDtlList(SearchVO params);
+	List<CamelMap> selectCodeDtlList(String codeId);
 	
 	/**
 	 * 상세코드 저장
-	 * @param Map<String,Object>
+	 * @param CodeVO
 	 */
-	void insertCodeDtl(Map<String, Object> map);
+	void insertCodeDtl(CodeVO vo);
 	
 	/**
 	 * 상세코드 수정
-	 * @param Map<String,Object>
+	 * @param CodeVO
 	 */
-	void updateCodeDtl(Map<String, Object> map);
+	void updateCodeDtl(CodeVO vo);
 	
 	/**
 	 * 상세코드 삭제
-	 * @param Map<String,Object>
+	 * @param CodeVO
 	 */
-	void deleteCodeDtl(Map<String, Object> map);
+	void deleteCodeDtl(CodeVO vo);
 }

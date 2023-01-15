@@ -1,5 +1,8 @@
 package com.club.business.cmmn.code;
 
+import java.util.List;
+
+import com.club.sys.cmmn.CamelMap;
 import com.club.sys.cmmn.CommonVO;
 
 import lombok.Getter;
@@ -19,4 +22,7 @@ public class CodeVO extends CommonVO{
 	private String code_dtl_nm;
 	private String code_dtl_dc;
 	private String code_dtl_order;
+	
+	private List<CamelMap> codeList;
+	private List<CamelMap> codeDtlList;
 }

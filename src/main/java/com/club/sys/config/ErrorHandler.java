@@ -59,7 +59,7 @@ public class ErrorHandler implements ErrorController{
 			mv.addObject("url", url);
 			mv.addObject("status", status);
 			mv.addObject("timeStamp", dateFormat);
-			mv.setViewName("error/error");
+			mv.setViewName("cmmn/error/error");
 			
 		}
 		return mv;

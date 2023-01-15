@@ -1,12 +1,7 @@
 package com.club.business.board;
 
-import java.util.List;
-import java.util.Map;
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import com.club.sys.cmmn.SearchVO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -20,26 +15,49 @@ import lombok.RequiredArgsConstructor;
 public class BoardService {
 	
 	private final BoardMapper boardMapper;
+	//private final BoardMapper fileMapper;
 	
 	/**
 	 * 게시판 목록 조회
 	 * @param SearchVO
-	 * @return List<BoardVO>
+	 * @return List<CamelMap>
 	 * @throws Exception
 	 */
-	public List<BoardVO> selectBoardList(SearchVO params) throws Exception{
-        List<BoardVO> list = boardMapper.selectBoardList(params);
-        return list;
+	public BoardVO selectBoardList(BoardVO vo) throws Exception{
+		//전체 카운트
+		int cnt = boardMapper.selectBoardListCnt(vo);
+		//목록 조회
+		if(cnt > 0) {
+			vo.setBoardList(boardMapper.selectBoardList(vo));
+		}
+        return vo;
 	}
 	
 	/**
 	 * 게시판 조회
-	 * @param SearchVO
+	 * @param BoardVO
 	 * @return BoardVO
 	 * @throws Exception
 	 */
-	public BoardVO selectBoardInfo(SearchVO params) throws Exception{
-		return boardMapper.selectBoardInfo(params);
+	public BoardVO selectBoardInfo(BoardVO vo) throws Exception{
+		int key = 0, replyCnt = 0; 
+		
+		//게시물 조회
+		key = vo.getSrchKey();
+		BoardVO boardVO = boardMapper.selectBoardInfo(key);
+		
+		//댓글 목록
+		replyCnt = boardVO.getReplyCnt();
+		if(replyCnt > 0) {
+			boardVO.setRepleList(boardMapper.selectBoardReplyList(key));
+		}
+		
+		//파일 목록
+		key = boardVO.getFileId();
+		if(key > 0) {
+			//boardVO.setFileList(fileMapper.selectFileList(key);	
+		}
+		return boardVO;
 	}
 	
 	/**
@@ -48,8 +66,8 @@ public class BoardService {
 	 * @throws Exception
 	 */
 	@Transactional
-	public void insertBoard(Map<String, Object> map) throws Exception{
-		boardMapper.insertBoard(map);
+	public void insertBoard(BoardVO vo) throws Exception{
+		boardMapper.insertBoard(vo);
 	}
 	
 	/**
@@ -58,8 +76,8 @@ public class BoardService {
 	 * @throws Exception
 	 */
 	@Transactional
-	public void updateBoard(Map<String, Object> map) throws Exception{
-		boardMapper.updateBoard(map);
+	public void updateBoard(BoardVO vo) throws Exception{
+		boardMapper.updateBoard(vo);
 	}
 	
 	/**
@@ -68,48 +86,59 @@ public class BoardService {
 	 * @throws Exception
 	 */
 	@Transactional
-	public void deleteBoard(Map<String, Object> map) throws Exception{
-		boardMapper.deleteBoard(map);
+	public void deleteBoard(BoardVO vo) throws Exception{
+		boardMapper.deleteBoardDelYn(vo);
 	}
 	
 	/**
 	 * 댓글 목록 조회
-	 * @param SearchVO
-	 * @return List<BoardVO>
+	 * @param BoardVO
+	 * @return BoardVO
 	 * @throws Exception
 	 */
-	public List<BoardVO> selectBoardReplyList(SearchVO params) throws Exception{
-        List<BoardVO> list = boardMapper.selectBoardReplyList(params);
-        return list;
+	public BoardVO selectBoardReplyList(BoardVO vo) throws Exception{
+        vo.setRepleList(boardMapper.selectBoardReplyList(vo.getBoardNo()));
+        return vo;
 	}
 	
 	/**
 	 * 댓글 저장
-	 * @param Map<String,Object>
+	 * @param BoardVO
 	 * @throws Exception
 	 */
 	@Transactional
-	public void insertBoardReply(Map<String, Object> map) throws Exception{
-		boardMapper.insertBoardReply(map);
+	public void insertBoardReply(BoardVO vo) throws Exception{
+		boardMapper.insertBoardReply(vo);
 	}
 	
 	/**
 	 * 댓글 수정
-	 * @param Map<String,Object>
+	 * @param BoardVO
 	 * @throws Exception
 	 */
 	@Transactional
-	public void updateBoardReply(Map<String, Object> map) throws Exception{
-		boardMapper.updateBoardReply(map);
+	public void updateBoardReply(BoardVO vo) throws Exception{
+		boardMapper.updateBoardReply(vo);
 	}
 	
 	/**
 	 * 댓글 삭제
-	 * @param Map<String,Object>
+	 * @param BoardVO
 	 * @throws Exception
 	 */
 	@Transactional
-	public void deleteBoardReply(Map<String, Object> map) throws Exception{
-		boardMapper.deleteBoardReply(map);
+	public void deleteBoardReply(BoardVO vo) throws Exception{
+		boardMapper.deleteBoardReplyDelYn(vo);
 	}
+	
+	/**
+	 * 종아요/싫어요 업데이트
+	 * @param BoardVO
+	 * @throws Exception
+	 */
+	@Transactional
+	public void updateBoardLikeHate(BoardVO vo) throws Exception{
+		boardMapper.updateBoardLikeHate(vo);
+	}
+	
 }

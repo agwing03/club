@@ -1,15 +1,11 @@
 package com.club.business.board;
 
-import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import com.club.sys.cmmn.SearchVO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -34,82 +30,79 @@ public class BoardController{
 	@RequestMapping("/board/selectBoardList.do")
 	public String selectBoardList(
 			HttpServletRequest req,
-			@ModelAttribute("params") SearchVO params,
+			@ModelAttribute("params") BoardVO vo,
 			Model model
 		) throws Exception {
-		//사용자 가입 게시판 및 추천 게시판
-		model.addAttribute("response", boardService.selectBoardList(params));
+		
+		model.addAttribute("response", boardService.selectBoardList(vo));
 		return "board/boardView";
 	}
 	
 	/**
 	 * 게시판 조회
+	 * @param BoardVO
 	 * @return Model 
 	 * @throws Exception
 	 */
-	@RequestMapping("/board/selectBoardList.do")
+	@RequestMapping("/board/selectBoardInfo.do")
 	public String selectBoardInfo(
 			HttpServletRequest req,
-			@ModelAttribute("params") SearchVO params,
+			@ModelAttribute("params") BoardVO vo,
 			Model model
 		) throws Exception {
 		
-		model.addAttribute("response", boardService.selectBoardInfo(params));
-		model.addAttribute("searchVO", params);
+		model.addAttribute("response", boardService.selectBoardInfo(vo));
 		return "board/boardView";
 	}
 	
 	/**
 	 * 게시판 등록
-	 * @param Map<String, Object>
+	 * @param BoardVO
 	 * @return Model 
 	 * @throws Exception
 	 */
 	@RequestMapping("/board/insertBoard.do")
 	public String insertBoard(
 			HttpServletRequest req,
-			@ModelAttribute("params") Map<String, Object> params,
+			@ModelAttribute("params") BoardVO vo,
 			Model model
 		) throws Exception {
 		
-		boardService.insertBoard(params);
-		model.addAttribute("searchVO", params);
+		boardService.insertBoard(vo);
 		return "board/boardView";
 	}
 	
 	/**
 	 * 게시판 수정
-	 * @param Map<String, Object>
+	 * @param BoardVO
 	 * @return Model 
 	 * @throws Exception
 	 */
 	@RequestMapping("/board/updateBoard.do")
 	public String updateBoard(
 			HttpServletRequest req,
-			@ModelAttribute("params") Map<String, Object> params,
+			@ModelAttribute("params") BoardVO vo,
 			Model model
 		) throws Exception {
 		
-		boardService.updateBoard(params);
-		model.addAttribute("searchVO", params);
+		boardService.updateBoard(vo);
 		return "board/boardView";
 	}
 	
 	/**
 	 * 게시판 삭제
-	 * @param Map<String, Object>
+	 * @param BoardVO
 	 * @return Model 
 	 * @throws Exception
 	 */
 	@RequestMapping("/board/deleteBoard.do")
 	public String deleteBoard(
 			HttpServletRequest req,
-			@ModelAttribute("params") Map<String, Object> params,
+			@ModelAttribute("params") BoardVO vo,
 			Model model
 		) throws Exception {
 		
-		boardService.deleteBoard(params);
-		model.addAttribute("searchVO", params);
+		boardService.deleteBoard(vo);
 		return "board/boardView";
 	}
 	
@@ -121,65 +114,79 @@ public class BoardController{
 	@RequestMapping("/board/selectBoardReplyList.do")
 	public String selectBoardReplyList(
 			HttpServletRequest req,
-			@ModelAttribute("params") SearchVO params,
+			@ModelAttribute("params") BoardVO vo,
 			Model model
 		) throws Exception {
-		//사용자 가입 게시판 및 추천 게시판
-		model.addAttribute("response", boardService.selectBoardReplyList(params));
+		vo = boardService.selectBoardReplyList(vo);
+		model.addAttribute("response", vo.getRepleList());
 		return "board/boardView";
 	}
 	
 	/**
 	 * 댓글 등록
-	 * @param Map<String, Object>
+	 * @param BoardVO
 	 * @return Model 
 	 * @throws Exception
 	 */
 	@RequestMapping("/board/insertBoardReply.do")
 	public String insertBoardReply(
 			HttpServletRequest req,
-			@ModelAttribute("params") Map<String, Object> params,
+			@ModelAttribute("params") BoardVO vo,
 			Model model
 		) throws Exception {
 		
-		boardService.insertBoardReply(params);
-		model.addAttribute("searchVO", params);
+		boardService.insertBoardReply(vo);
 		return "board/boardView";
 	}
 	
 	/**
 	 * 댓글 수정
-	 * @param Map<String, Object>
+	 * @param BoardVO
 	 * @return Model 
 	 * @throws Exception
 	 */
 	@RequestMapping("/board/updateBoardReply.do")
 	public String updateBoardReply(
 			HttpServletRequest req,
-			@ModelAttribute("params") Map<String, Object> params,
+			@ModelAttribute("params") BoardVO vo,
 			Model model
 		) throws Exception {
 		
-		boardService.updateBoardReply(params);
-		model.addAttribute("searchVO", params);
+		boardService.updateBoardReply(vo);
 		return "board/boardView";
 	}
 	
 	/**
 	 * 댓글 삭제
-	 * @param Map<String, Object>
+	 * @param BoardVO
 	 * @return Model 
 	 * @throws Exception
 	 */
 	@RequestMapping("/board/deleteBoardReply.do")
 	public String deleteBoardReply(
 			HttpServletRequest req,
-			@ModelAttribute("params") Map<String, Object> params,
+			@ModelAttribute("params") BoardVO vo,
 			Model model
 		) throws Exception {
 		
-		boardService.deleteBoardReply(params);
-		model.addAttribute("searchVO", params);
+		boardService.deleteBoardReply(vo);
+		return "board/boardView";
+	}
+	
+	/**
+	 * 종아요/싫어요 업데이트
+	 * @param BoardVO
+	 * @return Model 
+	 * @throws Exception
+	 */
+	@RequestMapping("/board/updateBoardLikeHate.do")
+	public String updateBoardLikeHate(
+			HttpServletRequest req,
+			@ModelAttribute("params") BoardVO vo,
+			Model model
+		) throws Exception {
+		
+		boardService.updateBoardLikeHate(vo);
 		return "board/boardView";
 	}
 }

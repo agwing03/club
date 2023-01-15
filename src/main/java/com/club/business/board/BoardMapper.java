@@ -1,11 +1,10 @@
 package com.club.business.board;
 
 import java.util.List;
-import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.club.sys.cmmn.SearchVO;
+import com.club.sys.cmmn.CamelMap;
 
 /**
  * 게시판 Service 
@@ -17,58 +16,67 @@ public interface BoardMapper {
 
 	/**
 	 * 게시판 목록 조회
-	 * @param SearchVO
-	 * @return List<BoardVO>
+	 * @param BoardVO
+	 * @return List<CamelMap>
 	 */
-	List<BoardVO> selectBoardList(SearchVO params);
+	int selectBoardListCnt(BoardVO vo);
+	List<CamelMap> selectBoardList(BoardVO vo);
 	
 	/**
 	 * 게시판 조회
-	 * @param SearchVO
+	 * @param Integer
 	 * @return BoardVO
 	 */
-	BoardVO selectBoardInfo(SearchVO params);
+	BoardVO selectBoardInfo(int boardNo);
 	
 	/**
 	 * 게시판 저장
-	 * @param Map<String,Object>
+	 * @param BoardVO
 	 */
-	void insertBoard(Map<String, Object> map);
+	void insertBoard(BoardVO vo);
 	
 	/**
 	 * 게시판 수정
-	 * @param Map<String,Object>
+	 * @param BoardVO
 	 */
-	void updateBoard(Map<String, Object> map);
+	void updateBoard(BoardVO vo);
 	
 	/**
 	 *  삭제
-	 * @param Map<String,Object>
+	 * @param BoardVO
 	 */
-	void deleteBoard(Map<String, Object> map);
+	void deleteBoard(BoardVO vo);
+	void deleteBoardDelYn(BoardVO vo);
 	
 	/**
 	 * 댓글 목록 조회
-	 * @param SearchVO
-	 * @return List<BoardVO>
+	 * @param Integer
+	 * @return List<CamelMap>
 	 */
-	List<BoardVO> selectBoardReplyList(SearchVO params);
+	List<CamelMap> selectBoardReplyList(int boardNo);
 	
 	/**
 	 * 댓글 저장
-	 * @param Map<String,Object>
+	 * @param BoardVO
 	 */
-	void insertBoardReply(Map<String, Object> map);
+	void insertBoardReply(BoardVO vo);
 	
 	/**
 	 * 댓글 수정
-	 * @param Map<String,Object>
+	 * @param BoardVO
 	 */
-	void updateBoardReply(Map<String, Object> map);
+	void updateBoardReply(BoardVO vo);
 	
 	/**
 	 * 댓글 삭제
-	 * @param Map<String,Object>
+	 * @param BoardVO
 	 */
-	void deleteBoardReply(Map<String, Object> map);
+	void deleteBoardReply(BoardVO vo);
+	void deleteBoardReplyDelYn(BoardVO vo);
+	
+	/**
+	 * 종아요/싫어요 업데이트
+	 * @param BoardVO
+	 */
+	void updateBoardLikeHate(BoardVO vo);
 }

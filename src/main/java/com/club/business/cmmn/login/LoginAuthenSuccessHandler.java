@@ -14,7 +14,7 @@ import org.springframework.security.web.authentication.SimpleUrlAuthenticationSu
 import org.springframework.stereotype.Component;
 
 import com.club.business.cmmn.log.LogMapper;
-import com.club.sys.cmmn.CamelMap;
+import com.club.business.cmmn.log.LogVO;
 
 /**
  * login success handler 
@@ -35,9 +35,14 @@ public class LoginAuthenSuccessHandler extends SimpleUrlAuthenticationSuccessHan
 	private LogMapper logMapper;
 
 	@Override
-	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
+	public void onAuthenticationSuccess(
+			HttpServletRequest request, 
+			HttpServletResponse response, 
+			Authentication authentication
+		) throws IOException {
+		
 		//로그인ID
-		String memberId = request.getParameter("userId");
+		String memberId = request.getParameter("memberId");
 		 
 		//계정이 잠겨 있는지 체크
 		LoginVO loginInfo = (LoginVO)authentication.getPrincipal();
@@ -59,15 +64,15 @@ public class LoginAuthenSuccessHandler extends SimpleUrlAuthenticationSuccessHan
 	    //로그인 성공시 실패 횟수 및 락 타임 초기화
 	    LoginMapper.updateFailCntReset(loginInfo.getMemberNo());
 	    
-	    /** 시스템 록그인 로그 */
-		CamelMap logParam = new CamelMap();
-		logParam.put("login_gbn", "S");
-		logParam.put("login_member_id", memberId);
-		logParam.put("login_ip",request.getRemoteAddr());
-		logParam.put("err_msg", "정상 로그인");
-		logParam.put("fail_cnt", 0);
-		logParam.put("reg_id", loginInfo.getMemberNo());
-		logMapper.insertLoginLog(logParam);
+	    /** 시스템 로그인 로그 */
+	    LogVO logVO = new LogVO();
+	    logVO.setLoginGbn("success");
+	    logVO.setUserNo(loginInfo.getMemberNo());
+	    logVO.setIp(request.getRemoteAddr());
+	    logVO.setMsg("정상 로그인");
+	    logVO.setFailCnt(0);
+	    logVO.setUserNo(loginInfo.getMemberNo());
+		logMapper.insertLoginLog(logVO);
 		
 	    //로그인 세션 지우기
 	    clearAuthenticationAttributes(request);

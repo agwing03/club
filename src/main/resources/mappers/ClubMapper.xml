@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.club.business.club.ClubMapper">
+
+	<!-- 클럽 목록 조회 -->
+	<select id="selectClubList" parameterType="com.club.business.club.ClubVO" resultType="com.club.sys.cmmn.CamelMap">
+		/* selectClubList */
+		select *
+		  from club.club
+		 where del_yn = 'N'
+	</select>
+	
+	<!-- 클럽 목록 카운트 -->
+	<select id="selectClubListCnt" parameterType="com.club.business.club.ClubVO" resultType="int">
+		/* selectClubListCnt */
+		select count(*)
+		  from club.club
+		 where del_yn = 'N'
+		   and club_no = #{srchKey}
+	</select>
+	
+	<!-- 클럽 상세 -->
+	<select id="selectClubInfo" parameterType="int" resultType="com.club.business.club.ClubVO">
+		/* selectClubInfo */
+		select *
+		  from club.Club
+		 where del_yn = 'N'
+		   and club_no = #{srchKey}
+		   
+	</select>
+	
+	<!-- 클럽 등록 -->
+    <insert id="insertClub" parameterType="com.club.business.club.ClubVO">
+    	/* insertClub */
+    	insert into club.club (
+			   club_nm
+			 , club_total_cnt
+			 , club_Intro
+			 , club_img_no
+			 , club_join_tp
+			 , open_yn
+			 , action_area_lv1
+			 , action_area_lv2
+			 , club_category
+			 , frst_reg_no
+			 , frst_reg_dt
+		) values (
+			   #{clubNm}
+			 , 100
+			 , #{clubIntro}
+			 , #{clubImgNo}
+			 , #{clubJoinTp}
+			 , #{openYn}
+			 , #{actionAreaLv1}
+			 , #{actionAreaLv2}
+			 , #{clubCategory}
+			 , #{userNo}
+			 , now()
+		)
+	</insert>
+	
+	<!-- 클럽 수정 -->
+    <update id="updateClub" parameterType="com.club.business.club.ClubVO">
+    	/* updateClub */
+    	update club.Club
+    	   set club_nm			= #{clubNm}
+			 , club_total_cnt   = #{clubTotalCnt}
+			 , club_Intro       = #{clubIntro}
+			 , club_img_no      = #{clubImgNo}
+			 , club_join_tp     = #{clubJoinTp}
+			 , open_yn          = #{openYn}
+			 , action_area_lv1  = #{actionAreaLv1}
+			 , action_area_lv2  = #{actionAreaLv2}
+			 , club_category    = #{clubCategory}
+			 , frst_reg_no      = #{userNo}
+			 , frst_reg_dt      = now()
+		 where club_no = #{clubNo}
+	</update>
+	
+	<!-- 클럽 삭제 -->
+	<update id="deleteClubDelYn" parameterType="com.club.business.club.ClubVO">
+    	/* deleteClubDelYn */
+    	update club.Club
+    	   set del_yn = 'Y'
+		 where club_no	= #{clubNo}
+	</update>
+    <delete id="deleteClub" parameterType="com.club.business.club.ClubVO">
+    	/* deleteClub */
+    	delete from club.Club
+    	 where club_no = #{clubNo}
+	</delete>
+	
+	<!-- 모임 목록 -->
+	<select id="selectMeetingList" parameterType="int" resultType="com.club.business.club.ClubVO">
+		/* selectMeetingList */
+	</select>
+	
+	<!-- 모임 상세 -->
+	<select id="selectMeetingInfo" parameterType="int" resultType="com.club.business.club.ClubVO">
+		/* selectMeetingInfo */
+	</select>
+	
+	<!-- 모임 등록 -->
+    <insert id="insertMeeting" parameterType="com.club.business.club.ClubVO">
+    	/* insertMeeting */
+	</insert>
+	
+	<!-- 모임 수정 -->
+    <update id="updateMeeting" parameterType="com.club.business.club.ClubVO">
+    	/* updateMeeting */
+	</update>
+	
+	<!-- 모임 삭제 -->
+	<update id="deleteMeetingDelYn" parameterType="com.club.business.club.ClubVO">
+    	/* deleteMeetingDelYn */
+	</update>
+    <delete id="deleteMeeting" parameterType="com.club.business.club.ClubVO">
+    	/* deleteMeeting */
+	</delete>
+</mapper>

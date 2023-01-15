@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.club.business.cmmn.user.MemberMapper">
+	
+	<!-- 맴버 목록 조회 -->
+	<select id="selectMemberList" parameterType="com.club.business.cmmn.user.MemberVO" resultMap="com.club.sys.cmmn.CamelMap">
+		/* selectMemberList */
+		select *
+		  from club.member 
+		 where 1 = 1
+		 order by frst_reg_no desc
+	</select>
+	
+	<!-- 맴버 목록 조회 카운트 -->
+	<select id="selectMemberListCnt" parameterType="com.club.business.cmmn.user.MemberVO" resultMap="int">
+		/* selectMemberListCnt */
+		select count(*)
+		  from club.member 
+		 where 1 = 1
+	</select>
+	
+	<!-- 맴버 정보 조회 -->
+	<select id="selectMemberInfo" parameterType="com.club.business.cmmn.user.MemberVO" resultMap="com.club.business.cmmn.user.MemberVO">
+		/* selectMemberInfo */
+		select *
+		  from club.member 
+		 where member_no = #{srchKey}
+	</select>
+	
+	<!-- 맴버 정보 등록 -->
+    <insert id="insertMember" parameterType="com.club.business.cmmn.user.MemberVO">
+    	/* insertMember */
+    	insert into club.member (
+			   member_id
+		     , member_pwd
+		     , member_author
+		     , nick_nm
+		     , name
+		     , sex
+		     , brthday
+		     , phon_no
+		     , email
+		     , addr
+		     , addr_dtl
+		     , profile_img_no
+		     , Intro
+		     , account_no
+		     , action_area_lv1
+		     , action_area_lv2
+		     , login_fail_cnt
+		     , un_lock_time
+		     , frst_reg_no
+		     , frst_reg_dt
+    	)values(
+    	 	   #{memberId}
+		     , #{memberPwd}
+		     , #{memberAuthor}
+		     , #{nickNm}
+		     , #{name}
+		     , #{sex}
+		     , #{brthday}
+		     , #{phonNo}
+		     , #{email}
+		     , #{addr}
+		     , #{addrDtl}
+		     , #{profileImgNo}
+		     , #{intro}
+		     , #{accountNo}
+		     , #{actionAreaLv1}
+		     , #{actionAreaLv2}
+		     , #{loginFailCnt}
+		     , #{unLockTime}
+		     , #{userNo}
+			 , now()
+    	)
+	</insert>
+	
+	<!-- 맴버 정보 수정 -->
+    <update id="updateMember" parameterType="com.club.business.cmmn.user.MemberVO">
+    	/* updateBoard */
+    	update club.board
+    	   set member_id = #{memberId}
+    	   <if test='memberPw != null and !memberPw.equals("")'>
+			 , member_pwd = #{memberPw}
+    	   </if>
+    	   <if test='memberAuthor != null and !memberAuthor.equals("")'>
+			 , member_author = #{memberAuthor}
+    	   </if>
+    	   <if test='nickNm != null and !nickNm.equals("")'>
+			 , nick_nm= #{nickNm}
+    	   </if>
+		   <if test='name != null and !name.equals("")'>
+			 , name = #{name}
+    	   </if>
+		   <if test='sex != null and !sex.equals("")'>
+			 , sex = #{sex}
+    	   </if>
+		   <if test='brthday != null and !brthday.equals("")'>
+			 , brthday = #{brthday}
+    	   </if>
+		   <if test='phonNo != null and !phonNo.equals("")'>
+			 , phon_no = #{phonNo}
+    	   </if>
+		   <if test='email != null and !email.equals("")'>
+			 , email = #{email}
+    	   </if>
+		   <if test='addr != null and !addr.equals("")'>
+			 , addr = #{addr}
+    	   </if>
+		   <if test='addrDtl != null and !addrDtl.equals("")'>
+			 , addr_dtl = #{addrDtl}
+    	   </if>
+		   <if test='profileImgNo != null and !profileImgNo.equals("")'>
+			 , profile_img_no = #{profileImgNo}
+    	   </if>
+		   <if test='intro != null and !intro.equals("")'>
+			 , intro = #{intro}
+    	   </if>
+    	   <if test='accountNo != null and !accountNo.equals("")'>
+			 , account_no = #{accountNo}
+    	   </if>
+		   <if test='actionAreaLv1 != null and !actionAreaLv1.equals("")'>
+			 , action_area_lv1 = #{actionAreaLv1}
+    	   </if>
+		   <if test='actionAreaLv2 != null and !actionAreaLv2.equals("")'>
+			 , action_area_lv2 = #{actionAreaLv2}
+    	   </if>
+    	   <if test='joinClubOpenYn != null and !joinClubOpenYn.equals("")'>
+			 , join_club_open_yn = #{joinClubOpenYn}
+    	   </if>
+    	   <if test='leaveYn != null and !leaveYn.equals("")'>
+			 , leave_yn = #{leaveYn}
+    	   </if>
+    	   <if test='loginFailCnt != null and !loginFailCnt.equals("")'>
+			 , login_fail_cnt = #{loginFailCnt}
+    	   </if>
+    	   <if test='lockTime != null and !lockTime.equals("")'>
+			 , lock_time = #{lockTime}
+    	   </if>
+		   <if test='unLockTime != null and !unLockTime.equals("")'>
+			 , un_lock_time = #{unLockTime}
+    	   </if>
+    	   <if test='lockYn != null and !lockYn.equals("")'>
+			 , lock_yn = #{lockYn}
+    	   </if>
+			 , last_upd_no = #{userNo}
+			 , last_upd_dt = now()
+		 where member_no = #{memberNo}
+	</update>
+	
+	<!-- 맴버 중복 체크 -->
+	<select id="selectMemberIdCheck" parameterType="String" resultMap="int">
+		/* selectMemberIdCheck */
+		select count(*)
+		  from club.member 
+		 where member_id = #{srchKey}
+	</select>
+</mapper>

@@ -1,12 +1,7 @@
 package com.club.business.cmmn.code;
 
-import java.util.List;
-import java.util.Map;
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import com.club.sys.cmmn.SearchVO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -19,87 +14,87 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class CodeService {
 	
-	private final CodeMapper authorMapper;
+	private final CodeMapper clubMapper;
 	
 	/**
 	 * 공통코드 목록 조회
-	 * @param SearchVO
-	 * @return List<CodeVO>
+	 * @param CodeVO
+	 * @return CodeVO
 	 * @throws Exception
 	 */
-	public List<CodeVO> selectCodeList(SearchVO params) throws Exception{
-        List<CodeVO> list = authorMapper.selectCodeList(params);
-        return list;
+	public CodeVO selectCodeList(CodeVO vo) throws Exception{
+    	vo.setCodeList(clubMapper.selectCodeList(vo));
+        return vo;
 	}
 	
 	/**
 	 * 공통코드 저장
-	 * @param Map<String,Object>
+	 * @param CodeVO
 	 * @throws Exception
 	 */
 	@Transactional
-	public void insertCode(Map<String, Object> map) throws Exception{
-		authorMapper.insertCode(map);
+	public void insertCode(CodeVO vo) throws Exception{
+		clubMapper.insertCode(vo);
 	}
 	
 	/**
 	 * 공통코드 수정
-	 * @param Map<String,Object>
+	 * @param CodeVO
 	 * @throws Exception
 	 */
 	@Transactional
-	public void updateCode(Map<String, Object> map) throws Exception{
-		authorMapper.updateCode(map);
+	public void updateCode(CodeVO vo) throws Exception{
+		clubMapper.updateCode(vo);
 	}
 	
 	/**
 	 * 공통코드 삭제
-	 * @param Map<String,Object>
+	 * @param CodeVO
 	 * @throws Exception
 	 */
 	@Transactional
-	public void deleteCode(Map<String, Object> map) throws Exception{
-		authorMapper.deleteCode(map);
+	public void deleteCode(CodeVO vo) throws Exception{
+		clubMapper.deleteCode(vo);
 	}
 	
 	/**
 	 * 상세코드 목록 조회
-	 * @param SearchVO
-	 * @return List<CodeVO>
+	 * @param CodeVO
+	 * @return CodeVO
 	 * @throws Exception
 	 */
-	public List<CodeVO> selectCodeDtlList(SearchVO params) throws Exception{
-        List<CodeVO> list = authorMapper.selectCodeDtlList(params);
-        return list;
+	public CodeVO selectCodeDtlList(CodeVO vo) throws Exception{
+		vo.setCodeDtlList(clubMapper.selectCodeDtlList(vo.getCode_id()));
+        return vo;
 	}
 	
 	/**
 	 * 상세코드 저장
-	 * @param Map<String,Object>
+	 * @param CodeVO
 	 * @throws Exception
 	 */
 	@Transactional
-	public void insertCodeDtl(Map<String, Object> map) throws Exception{
-		authorMapper.insertCodeDtl(map);
+	public void insertCodeDtl(CodeVO vo) throws Exception{
+		clubMapper.insertCodeDtl(vo);
 	}
 	
 	/**
 	 * 상세코드 수정
-	 * @param Map<String,Object>
+	 * @param CodeVO
 	 * @throws Exception
 	 */
 	@Transactional
-	public void updateCodeDtl(Map<String, Object> map) throws Exception{
-		authorMapper.updateCodeDtl(map);
+	public void updateCodeDtl(CodeVO vo) throws Exception{
+		clubMapper.updateCodeDtl(vo);
 	}
 	
 	/**
 	 * 상세코드 삭제
-	 * @param Map<String,Object>
+	 * @param CodeVO
 	 * @throws Exception
 	 */
 	@Transactional
-	public void deleteCodeDtl(Map<String, Object> map) throws Exception{
-		authorMapper.deleteCodeDtl(map);
+	public void deleteCodeDtl(CodeVO vo) throws Exception{
+		clubMapper.deleteCodeDtl(vo);
 	}
 }

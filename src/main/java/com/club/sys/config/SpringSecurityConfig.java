@@ -25,39 +25,53 @@ import lombok.RequiredArgsConstructor;
 public class SpringSecurityConfig{
 	
 		// 성공 핸들러
-		private final AuthenticationSuccessHandler customAuthenticationSuccessHandler;
+		private final AuthenticationSuccessHandler customAuthorSuccessHandler;
 		// 실패 핸들러
-		private final AuthenticationFailureHandler customAuthenticationFailureHandler;
+		private final AuthenticationFailureHandler customAuthorFailureHandler;
 		
 	 	@Bean
 	    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 	 			http.csrf().disable()
 					.authorizeRequests()
-					.antMatchers("/login/**","/login**","/test/test**","/payment/**").permitAll() // 해당 경로들은 접근을 허용 , login** -> 실패 핸들러 탓을 경우에 파라미터 넘기기 위함
-					.antMatchers("/board/list.do").hasRole("TEST")
-					.anyRequest().authenticated() // 인증된 유저만 접근을 허용
+					// 해당 경로들은 접근을 허용 , login** -> 실패 핸들러 탓을 경우에 파라미터 넘기기 위함
+					.antMatchers("/login/**","/login**","/payment/**").permitAll() 
+					//인증된 유저만 접근을 허용
+					.anyRequest().authenticated() 
 	                .and()
+	                	//로그인
 	                	.formLogin()
 	                	.loginPage("/login.do")
 	                	.loginProcessingUrl("/login/loginProc.do")
-	                    .usernameParameter("userId")
-	                    .passwordParameter("userPassword")
+	                	//로그인 ID/PW
+	                    .usernameParameter("memberId")
+	                    .passwordParameter("memberPw")
+	                    //로그인 성공시 이동 URL
 	                    .defaultSuccessUrl("/main.do", true)
-	                    .successHandler(customAuthenticationSuccessHandler) //  성공시 custom success 핸들러를 호출한다.
-	                    .failureHandler(customAuthenticationFailureHandler) //  실패시 custom failure 핸들러를 호출한다.
+	                    //로그인 성공시 custom success 핸들러를 호출
+	                    .successHandler(customAuthorSuccessHandler)
+	                    //로그인 실패시 custom failure 핸들러를 호출
+	                    .failureHandler(customAuthorFailureHandler)
 	                    .permitAll()
 	                .and()
+	                	//로그아웃
 		    			.logout()
-		    			.logoutRequestMatcher(new AntPathRequestMatcher("/logout.do")) // 로그아웃 URL
-		    		    .logoutSuccessUrl("/login.do") // 성공시 리턴 URL
-		    		    .invalidateHttpSession(true) // 인증정보를 지우하고 세션을 무효화
-		    		    .deleteCookies("JSESSIONID") // JSESSIONID 쿠키 삭제
+		    			//로그아웃 URL
+		    			.logoutRequestMatcher(new AntPathRequestMatcher("/logout.do"))
+		    			//성공시 리턴 URL
+		    		    .logoutSuccessUrl("/login.do")
+		    		    //인증정보를 지우하고 세션을 무효화
+		    		    .invalidateHttpSession(true)
+		    		    //JSESSIONID 쿠키 삭제
+		    		    .deleteCookies("JSESSIONID") 
 		    			.permitAll()
 		    		.and()
 		            	.sessionManagement()
-		                .maximumSessions(1) // 세션 최대 허용 수 1, -1인 경우 무제한 세션 허용
-		                .maxSessionsPreventsLogin(false) // true면 중복 로그인을 막고, false면 이전 로그인의 세션을 해제
-		                .expiredUrl("/login.do?error=true&exception=Have been attempted to login from a new place. or session expired");  // 세션이 만료된 경우 이동 할 페이지를 지정
+		            	//세션 최대 허용 수 1, -1인 경우 무제한 세션 허용
+		                .maximumSessions(1) 
+		                //true면 중복 로그인을 막고, false면 이전 로그인의 세션을 해제
+		                .maxSessionsPreventsLogin(false) 
+		                //세션이 만료된 경우 이동 할 페이지를 지정
+		                .expiredUrl("/login.do?error=true&exception=Have been attempted to login from a new place. or session expired");  
 		          
 	        http.headers().frameOptions().sameOrigin();
 	        return http.build();

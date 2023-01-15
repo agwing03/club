@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>로그인</title>
+    <!-- <link rel="stylesheet" type="text/css" href="css/loader.css"> -->
+    
+	<script src="../script/jquery.min.js"></script>
+	<script>
+		//Document Ready
+	   	$(function() {
+	   		$("#userPassword").on("keyup", function(e) {
+				if (e.key == "Enter") fnSubmit();
+			});
+	   	});
+	   	
+		//로그인처리
+		function fnSubmit() {
+			let id = document.getElementById('memberId').value;
+			if(id == '' || id == undefined){
+				alert("ID를 작성해주세요.");
+				return;
+			}
+			let pw = document.getElementById('memberPw').value;
+			if(pw == '' || pw == undefined){
+				alert("PW를 작성해주세요11111.");
+				return;
+			}
+			frm.submit();
+		}
+	
+		//가입 팝업 띄우기
+		function fnJoinPopup() {
+		    document.getElementById("joinPopup").style.display = "block";
+		}
+		
+		//가입 팝업 닫기
+		function fnClosePopup() {
+		    document.getElementById("joinPopup").style.display = "none";
+		}
+		
+		//맴버가입 처리 
+		function fnSignUp(){
+			alert("fnSignUp");
+			joinFrm.submit();
+			fnClosePopup();
+		}
+	</script>
+</head>
+
+<style>
+	#joinPopup {
+		width: 400px;
+		height: 700px;
+		border: 1px solid;
+		display: none;
+	}
+</style>
+
+<body>
+    <h1>로그인</h1>
+    <a href="javascript:fn_main();">home</a>
+    <form id="frm" name="frm" action="/loginProc.do" method="post">
+		<div>
+			<input class="" id="memberId" name="memberId" type="text" placeholder="mail@naver.com" required />
+		</div>
+		<div>
+			<input class="" id="memberPw" name="memberPw" type="password" placeholder="Password" required />
+		</div>
+		<div>
+			<a href="javascript:fnSubmit();">로그인</a>
+			<a href='javascript:void(0);' onclick="fnJoinPopup();">회원가입</a>
+		</div>
+	</form>
+	
+	<!-- 맴버 가입 팝업 -->
+	<div id="joinPopup">
+	<form id="joinFrm" name="joinFrm" action="/user/insertMember.do" method="post">
+		<div>
+			<input id="memberId" name="memberId" type="text" placeholder="Email" required />
+			<a href="#" onclick="">중복확인</a></br>
+			<input id="memberPw" name="memberPw" type="text" placeholder="비밀번호" required /></br>
+			<input id="memberPwRe" type="text" placeholder="비밀번호 확인" required /></br>
+			<input id="nickNm" name="nickNm" type="text" placeholder="닉네임" required /></br>
+			<input id="brthday" name="brthday" type="text" placeholder="생년월일" required /></br>
+			<input type="radio" id="sex" name="sex" value="F"><label for="sex">남성</label>
+			<input type="radio" id="sex" name="sex" value="M"><label for="sex">여성</label></br>
+			<select id="actionAreaLv1" name="actionAreaLv1">
+				<option value="선택">전체</option>
+				<option value="서울">서울</option>
+				<option value="인천">인천</option>
+				<option value="경기">경기</option>
+			</select></br>
+			<select id="actionAreaLv2" name="actionAreaLv2">
+				<option value="선택">전체</option>
+			</select></br>
+		</div>
+		<a href="javascript:fnSignUp();">가입</a>
+		<a href="javascript:fnClosePopup();">닫기</a>
+  	</div>
+  	</form>
+</body>
+</html>

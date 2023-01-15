@@ -45,20 +45,11 @@
 		 where member_no = #{memberNo} 
 	</update> 
 	
-	<!-- 로그인 계정 잠금 -->
-    <update id="updateFailCntAdd"  parameterType="int">
-		/* updateFailCntAdd */
+	<!-- 로그인 계정 잠금 or 잠금해제 -->
+    <update id="updateFailLock"  parameterType="int">
+		/* updateFailUnLock */
 		update member
 		   set lock_yn = 'Y'
-		 where member_no = #{memberNo} 
-	</update>
-	
-	<!-- 로그인 계정 잠금 해제 -->
-    <update id="updateFailCntAdd"  parameterType="int">
-		/* updateFailCntAdd */
-		update member
-		   set lock_yn = 'Y'
-		     , lobk_time = '10'
 		 where member_no = #{memberNo} 
 	</update>
 </mapper>

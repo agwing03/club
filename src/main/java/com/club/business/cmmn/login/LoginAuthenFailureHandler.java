@@ -18,14 +18,13 @@ import org.springframework.security.web.authentication.SimpleUrlAuthenticationFa
 import org.springframework.stereotype.Component;
 
 import com.club.business.cmmn.log.LogMapper;
-import com.club.sys.cmmn.CamelMap;
+import com.club.business.cmmn.log.LogVO;
 
 /**
  * login fail handler 
  * table : member, sys_login_log
  * 로그인 인증실패에 관련 조치
  */
-
 @Component // Bean Cofig에 따로 등록하지 않아도 빈 등록자체를 빈 클래스 자체에다가 할 수 있음.
 public class LoginAuthenFailureHandler extends SimpleUrlAuthenticationFailureHandler {
 	
@@ -36,13 +35,18 @@ public class LoginAuthenFailureHandler extends SimpleUrlAuthenticationFailureHan
 	private LogMapper logMapper;
 	
 	@Override
-	public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
+	public void onAuthenticationFailure(
+			HttpServletRequest request, 
+			HttpServletResponse response, 
+			AuthenticationException exception
+		) throws IOException, ServletException {
+		
 		try {
 		    String errorMessage;
 		    int failCnt = 0;
 		    
 			// 로그인ID
-			String memberId = request.getParameter("userId");
+			String memberId = request.getParameter("memberId");
 			 
 			// 맴버 정보 조회
 			LoginVO loginInfo = loginMapper.selectLoginMemberInfo(memberId);
@@ -89,16 +93,15 @@ public class LoginAuthenFailureHandler extends SimpleUrlAuthenticationFailureHan
 	    		errorMessage = "알 수 없는 오류로 로그인 요청을 처리할 수 없습니다. 관리자에게 문의하세요.";
 	    	}
 		    
-		    /** 시스템 록그인 로그 */
- 			CamelMap logParam = new CamelMap();
- 			logParam.put("login_gbn", "F");
- 			logParam.put("login_member_id", memberId);
- 			logParam.put("login_ip",request.getRemoteAddr());
- 			logParam.put("err_msg", errorMessage);
- 			logParam.put("fail_cnt", failCnt);
- 			logParam.put("reg_id", loginInfo.getMemberNo());
- 			logMapper.insertLoginLog(logParam);
- 			
+		    /** 시스템 로그인 로그 */
+		    LogVO logVO = new LogVO();
+		    logVO.setLoginGbn("fail");
+		    logVO.setIp(request.getRemoteAddr());
+		    logVO.setMsg(errorMessage);
+		    logVO.setFailCnt(failCnt);
+		    logVO.setUserNo(loginInfo.getMemberNo());
+			logMapper.insertLoginLog(logVO);
+			
 		    errorMessage = URLEncoder.encode(errorMessage, "UTF-8"); /* 한글 인코딩 깨진 문제 방지 */
 		    // 파라미터로 error와 exception을 보내서 controller에서 처리하기 위함.
 		    setDefaultFailureUrl("/login.do?error=true&exception=" + errorMessage);

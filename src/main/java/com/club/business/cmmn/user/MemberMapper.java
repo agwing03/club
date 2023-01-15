@@ -1,11 +1,10 @@
 package com.club.business.cmmn.user;
 
 import java.util.List;
-import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.club.sys.cmmn.SearchVO;
+import com.club.sys.cmmn.CamelMap;
 
 /**
  * 맴버 Mapper 
@@ -16,43 +15,36 @@ import com.club.sys.cmmn.SearchVO;
 public interface MemberMapper {
 
 	/**
-	 * 맴버 리스트 조회
-	 * @param SearchVO
-	 * @return Integer
+	 * 맴버 목록 조회
+	 * @param MemberVO
+	 * @return List<CamelMap>
 	 */
-	int selectMemberListCnt(SearchVO params);
-	
-	/**
-	 * 맴버 리스트 조회
-	 * @param SearchVO
-	 * @return List<MemberVO>
-	 */
-	List<MemberVO> selectMemberList(SearchVO params);
+	List<CamelMap> selectMemberList(MemberVO vo);
+	int selectMemberListCnt(MemberVO vo);
 		
 	/**
 	 * 맴버 정보 조회
-	 * @param String memberId
+	 * @param MemberVO
 	 * @return MemberVO
 	 */
-	MemberVO selectMemberInfo(SearchVO params);
+	MemberVO selectMemberInfo(MemberVO vo);
     
 	/**
 	 * 맴버 정보 저장
-	 * @param Map<String,Object>
+	 * @param MemberVO
 	 */
-	void insertMember(Map<String, Object> paramMap);
+	void insertMember(MemberVO vo);
     
 	/**
 	 * 맴버 정보 변경
-	 * @param Map<String,Object>
+	 * @param MemberVO
 	 */
-	void updateMember(Map<String, Object> paramMap);
+	void updateMember(MemberVO vo);
 	
 	/**
-	 * 아이디 중복체크
+	 * 맴버 아이디 중복체크
 	 * @param String memberId
 	 * @return Integer
 	 */
-	int selectMemberId(String memberId);
-	
+	int selectMemberIdCheck(String memberId);
 }

@@ -26,64 +26,63 @@ public class MemberService {
 	private final MemberMapper memberMapper;
 	
 	/**
-	 * 맴버 리스트 조회
-	 * @param SearchVO
-	 * @return PagingResponse<MemberVO>
+	 * 맴버 목록 조회
+	 * @param MemberVO
+	 * @return MemberVO
 	 * @throws Exception
 	 */
-	public PagingResponse<MemberVO> selectMemberList(SearchVO params) throws Exception{
-		int count = memberMapper.selectMemberListCnt(params);
-        Pagination pagination = new Pagination(count, params);
-        params.setPagination(pagination);
-        List<MemberVO> list =  memberMapper.selectMemberList(params);
-        return new PagingResponse<>(list, pagination);
+	public MemberVO selectMemberList(MemberVO vo) throws Exception{
+		int cnt = memberMapper.selectMemberListCnt(vo);
+		if(cnt > 0) {
+			vo.setMemberList(memberMapper.selectMemberList(vo));
+		}
+        return vo;
 	}
 	
 	/**
 	 * 맴버 정보 조회
-	 * @param SearchVO
+	 * @param MemberVO
 	 * @return MemberVO
 	 * @throws Exception
 	 */
-	public MemberVO selectMemberInfo(SearchVO params) {
-		return memberMapper.selectMemberInfo(params);
+	public MemberVO selectMemberInfo(MemberVO vo) throws Exception{
+		return memberMapper.selectMemberInfo(vo);
 	}
 	
 	/**
 	 * 맴버 정보 저장
-	 * @param Map<String,Object>
-	 * @return String memberNo
+	 * @param MemberVO
 	 * @throws Exception
 	 */
 	@Transactional
-	public void insertMember(Map<String, Object> map) throws Exception{
+	public void insertMember(MemberVO vo) throws Exception{
 		//암호화 SHA256
-		map.put("memberPwd", passwordEncoding(map.get("memberPwd").toString()));
-		memberMapper.insertMember(map);
+		vo.setMemberPwd(passwordEncoding(vo.getMemberPwd().toString()));
+		memberMapper.insertMember(vo);
 	}
 	
 	/**
 	 * 맴버 정보 변경
-	 * @param Map<String,Object>
+	 * @param MemberVO
 	 * @throws Exception
 	 */
 	@Transactional
-	public void updateMember(Map<String, Object> map) throws Exception{
-		memberMapper.updateMember(map);
+	public void updateMember(MemberVO vo) throws Exception{
+		memberMapper.updateMember(vo);
 	}
 	
 	/**
 	 * 맴버 사용여부 변경
-	 * @param Map<String,Object>
+	 * @param MemberVO
 	 * @throws Exception
 	 */
 	@Transactional
-	public void updateMemberUseYn(Map<String,Object> map) throws Exception{
-		String memberPkArr[] = map.get("memberPkArr").toString().split(",");
+	public void updateMemberUseYn(MemberVO vo) throws Exception{
+		String memberPkArr[] = vo.getMemberPkArr().split(",");
 		for(int i=0; i < memberPkArr.length; i++) {
-			map.put("memberNo", memberPkArr[i]);
-			map.put("useYn", "Y");
-			memberMapper.updateMember(map);
+			vo.setMemberNo(Integer.parseInt(memberPkArr[i]));
+			vo.setLeaveYn("Y");
+			memberMapper.updateMember(vo);
 		}
 	}
 	
@@ -93,12 +92,12 @@ public class MemberService {
 	 * @throws Exception
 	 */
 	@Transactional 
-	public void updateMemberUnLock(Map<String, Object> map) throws Exception{
-		String memberPkArr[] = map.get("memberPkArr").toString().split(",");
+	public void updateMemberUnLock(MemberVO vo) throws Exception{
+		String memberPkArr[] = vo.getMemberPkArr().split(",");
 		for(int i=0; i < memberPkArr.length; i++) {
-			map.put("memberNo", memberPkArr[i]);
-			map.put("lockYn", "N");
-			memberMapper.updateMember(map);
+			vo.setMemberNo(Integer.parseInt(memberPkArr[i]));
+			vo.setLockYn("N");
+			memberMapper.updateMember(vo);
 		}
 	}
 	
@@ -108,20 +107,20 @@ public class MemberService {
 	 * @throws Exception
 	 */
 	@Transactional
-	public void updateMemberPwd(Map<String,Object> map) throws Exception{
+	public void updateMemberPwd(MemberVO vo) throws Exception{
 		//암호화 SHA256
-		map.put("memberPwd", passwordEncoding(map.get("memberPwd").toString()));
-		memberMapper.updateMember(map);
+		vo.setMemberPwd(passwordEncoding(vo.getMemberPwd().toString()));
+		memberMapper.updateMember(vo);
 	}
 	
 	/**
-	 * 아이디 중복체크
-	 * @param commandMap
+	 * 맴버 아이디 중복체크
+	 * @param String memberId
 	 * @return Integer
 	 * @throws Exception
 	 */
-	public int selectMemberId(String memberId) throws Exception{
-		return memberMapper.selectMemberId(memberId);
+	public int selectMemberIdCheck(String memberId) throws Exception{
+		return memberMapper.selectMemberIdCheck(memberId);
 	}
 	
 	/**
@@ -160,6 +159,5 @@ public class MemberService {
 		tmpString = tmpString.replaceAll("&apos;", "\'");
 		tmpString = tmpString.replaceAll("&quot;", "\"");
 		return tmpString;
-
 	}
 }
