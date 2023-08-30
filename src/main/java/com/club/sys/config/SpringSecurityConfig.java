@@ -79,7 +79,7 @@ public class SpringSecurityConfig{
 	  
 	    @Bean
 	    public WebSecurityCustomizer webSecurityCustomizer() {
-	        return (web) -> web.ignoring().antMatchers("/css/**", "/scripts/**", "/img/**", "/plugin/**", "/fonts/**");
+	        return (web) -> web.ignoring().antMatchers("/css/**", "/js/**", "/img/**", "/plugin/**", "/fonts/**");
 	    }
 	    
 	    @Bean
@@ -88,8 +88,7 @@ public class SpringSecurityConfig{
 	    }    
 	    
 	    @Bean
-	    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)
-	            throws Exception {
+	    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
 	        return authenticationConfiguration.getAuthenticationManager();
 	    }
 }

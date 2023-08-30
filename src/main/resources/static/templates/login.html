@@ -3,27 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <title>로그인</title>
-    <!-- <link rel="stylesheet" type="text/css" href="css/loader.css"> -->
-    
-	<script src="../script/jquery.min.js"></script>
+	<script src="http://code.jquery.com/jquery-latest.js"></script> 
 	<script>
 		//Document Ready
-	   	$(function() {
-	   		$("#userPassword").on("keyup", function(e) {
+	   	$(document).ready(function(){ 
+			// id 엔터 pw 포커스 이동
+			$("#memberId").on("keyup", function(e) {
+			   if (e.key == "Enter"){
+				 $('#memberPw').focus();
+			   };
+			});
+			// pw 엔터 로그인처리
+	   		$("#memberPw").on("keyup", function(e) {
 				if (e.key == "Enter") fnSubmit();
 			});
 	   	});
 	   	
 		//로그인처리
 		function fnSubmit() {
-			let id = document.getElementById('memberId').value;
+			let id = $("#memberId").val();
 			if(id == '' || id == undefined){
-				alert("ID를 작성해주세요.");
+				alert("ID를 입력해주세요.");
 				return;
 			}
-			let pw = document.getElementById('memberPw').value;
+			let pw = $("#memberPw").val();
 			if(pw == '' || pw == undefined){
-				alert("PW를 작성해주세요11111.");
+				alert("PW를 입력해주세요.");
 				return;
 			}
 			frm.submit();
@@ -31,17 +36,16 @@
 	
 		//가입 팝업 띄우기
 		function fnJoinPopup() {
-		    document.getElementById("joinPopup").style.display = "block";
+		    $("#joinPopup").css("display","block");
 		}
 		
 		//가입 팝업 닫기
 		function fnClosePopup() {
-		    document.getElementById("joinPopup").style.display = "none";
+		    $("#joinPopup").css("display","none");
 		}
 		
 		//맴버가입 처리 
 		function fnSignUp(){
-			alert("fnSignUp");
 			joinFrm.submit();
 			fnClosePopup();
 		}
@@ -55,11 +59,18 @@
 		border: 1px solid;
 		display: none;
 	}
+	
+	.phoneNum1 {
+		width: 20px;	
+	}
+	.phoneNum2 {
+		width: 30px;	
+	}
 </style>
 
 <body>
     <h1>로그인</h1>
-    <a href="javascript:fn_main();">home</a>
+    <a href="javascript:fn_main();">home1</a>
     <form id="frm" name="frm" action="/loginProc.do" method="post">
 		<div>
 			<input class="" id="memberId" name="memberId" type="text" placeholder="mail@naver.com" required />
@@ -77,14 +88,17 @@
 	<div id="joinPopup">
 	<form id="joinFrm" name="joinFrm" action="/user/insertMember.do" method="post">
 		<div>
-			<input id="memberId" name="memberId" type="text" placeholder="Email" required />
+			<input type="text" id="joinId" name="joinId" placeholder="Email" required />
 			<a href="#" onclick="">중복확인</a></br>
-			<input id="memberPw" name="memberPw" type="text" placeholder="비밀번호" required /></br>
-			<input id="memberPwRe" type="text" placeholder="비밀번호 확인" required /></br>
-			<input id="nickNm" name="nickNm" type="text" placeholder="닉네임" required /></br>
-			<input id="brthday" name="brthday" type="text" placeholder="생년월일" required /></br>
-			<input type="radio" id="sex" name="sex" value="F"><label for="sex">남성</label>
-			<input type="radio" id="sex" name="sex" value="M"><label for="sex">여성</label></br>
+			<input type="text" id="joinPw" class="" placeholder="비밀번호" required /></br>
+			<input type="text" id="joinPwRe" class="" placeholder="비밀번호 확인" required /></br>
+			<input type="text" id="nickNm" class="" placeholder="닉네임" required /></br>
+			<input type="text" id="brthday" class="" placeholder="생년월일" required /></br>
+			<input type="radio" name="sex" class="" value="F"><label for="sex">남성</label>
+			<input type="radio" name="sex" class="" value="M"><label for="sex">여성</label></br>
+			<input type="text" id="phoneNum1" class="phoneNum1" placeholder="010" value="010" required /></br>
+			<input type="text" id="phoneNum2" class="phoneNum2" required /></br>
+			<input type="text" id="phoneNum3" class="phoneNum2" required /></br>
 			<select id="actionAreaLv1" name="actionAreaLv1">
 				<option value="선택">전체</option>
 				<option value="서울">서울</option>

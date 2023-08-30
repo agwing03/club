@@ -23,15 +23,11 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
-	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.session:spring-session-core'
 	
 	implementation 'org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16'  /** Log4JDBC */
-	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5' /** Thymeleaf Security */
 	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.2'
-	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
 	
-	implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect' /** Thymeleaf Layout */
 	implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.13.0' /*XML 파싱*/
 	implementation 'com.google.code.gson:gson:2.9.0' /** GSON */
 	implementation ("commons-collections:commons-collections:3.2.2") /*Commons Map */

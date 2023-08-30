@@ -17,6 +17,7 @@ public class CommonVO {
     private int 	pageSize;  	// 화면 하단에 출력할 페이지 사이즈
     private int 	totalCnt;	// 전체건수
     private int 	userNo;		// 사용자 번호
+    private int 	totCnt;		// 목록카운트
     
     //검색조건
     private int 	srchKey;

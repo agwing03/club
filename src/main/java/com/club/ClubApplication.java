@@ -17,7 +17,7 @@ public class ClubApplication {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-				System.out.println("Test Running: " + new java.util.Date());
+				//System.out.println("Test Running: " + new java.util.Date());
             }
         }, 0, 10000);//10초마다
 	}
